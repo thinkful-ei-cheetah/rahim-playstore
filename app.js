@@ -23,10 +23,6 @@ app.get('/apps', (req, res) => {
   if (sort) {
     if (!['rating', 'app'].includes(sort)) {
       return res.status(400).send(`Sort must be rating or app`);
-    } else {
-      data = data.sort((a, b) => {
-        return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
-      });
     }
   }
 
@@ -39,6 +35,17 @@ app.get('/apps', (req, res) => {
       res.status(404).send('You must supply a valid genre');
     }
   }
+
+  if (sort === 'app') {
+    data.sort((a, b) => {
+      return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
+    });
+  } else if (sort === 'rating') {
+    data.sort((a, b) => {
+      return a['Rating'] - b['Rating'];
+    });
+  }
+  data.forEach(element => console.log(element.Rating));
   res.status(200).send(data);
 });
 app.listen(8080, () => {
