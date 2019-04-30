@@ -38,14 +38,21 @@ app.get('/apps', (req, res) => {
 
   if (sort === 'app') {
     data.sort((a, b) => {
-      return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
+      return a['App'].toLowerCase() > b['App'].toLowerCase()
+        ? 1
+        : a['App'].toLowerCase() < b['App'].toLowerCase()
+        ? -1
+        : 0;
     });
   } else if (sort === 'rating') {
     data.sort((a, b) => {
       return a['Rating'] - b['Rating'];
     });
   }
-  data.forEach(element => console.log(element.Rating));
+  data.forEach(element => {
+    // console.log(element.Rating);
+    console.log(element.App);
+  });
   res.status(200).send(data);
 });
 app.listen(8080, () => {
